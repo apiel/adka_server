@@ -18,7 +18,7 @@ export async function server({ port, root }: Options) {
     });
 
     app.use(wsMiddleware);
-    app.use(staticMiddleware(root));
+    app.use(staticMiddleware(root, port));
 
     info(`Server started listening on port ${port}`);
     app.listen({ port });

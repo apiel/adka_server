@@ -1,6 +1,9 @@
 let socks: any = [];
+
+export const wsPathname = '/adkaLiveWS';
+
 export async function wsMiddleware(ctx: any, next: any) {
-    if (ctx.request.url.pathname !== '/adkaLiveWS') {
+    if (ctx.request.url.pathname !== wsPathname) {
         return await next();
     }
     const sock = await ctx.upgrade();
