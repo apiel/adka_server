@@ -5,7 +5,6 @@ export async function wsMiddleware(ctx: any, next: any) {
     }
     const sock = await ctx.upgrade();
     let idx = socks.push(sock) - 1;
-    setInterval(() => sock.send('ping'), 1000);
     for await (const ev of sock) {
         if (typeof ev === 'string') {
             // text message
@@ -19,6 +18,6 @@ export async function wsMiddleware(ctx: any, next: any) {
 export async function sendLiveReload() {
     for (const sock of socks) {
         await sock.send('reload');
-        await sock.close(1000);
+        // await sock.close(1000);
     }
 };
