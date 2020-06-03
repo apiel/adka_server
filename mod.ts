@@ -1,5 +1,6 @@
 import { Application, send, error, info } from './deps.ts';
 import { wsMiddleware, sendLiveReload } from './wsMiddleware.ts';
+import { staticMiddleware } from './staticMiddleware.ts';
 
 export interface Options {
     port: number;
@@ -17,13 +18,7 @@ export async function server({ port, root }: Options) {
     });
 
     app.use(wsMiddleware);
-
-    app.use(async (context) => {
-        await send(context, context.request.url.pathname, {
-            root,
-            index: 'index.html',
-        });
-    });
+    app.use(staticMiddleware(root));
 
     info(`Server started listening on port ${port}`);
     app.listen({ port });
