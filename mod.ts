@@ -29,7 +29,7 @@ export async function server(options: Options) {
 
     info(`Server started listening on port ${port}`);
     app.listen({ port });
-    watcher(root);
+    watcher && watcher(root);
 }
 
 export async function watch(root: string) {

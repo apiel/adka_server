@@ -1,5 +1,5 @@
 export interface Options {
     port: number;
     root: string;
-    watcher?: (root: string) => Promise<void>,
+    watcher?: null | ((root: string) => Promise<void>);
 }
