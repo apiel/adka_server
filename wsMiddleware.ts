@@ -1,4 +1,6 @@
-let socks: any = [];
+import { WebSocket } from 'https://deno.land/std/ws/mod.ts';
+
+export const socks: WebSocket[] = [];
 
 export const wsPathname = '/adkaLiveWS';
 
@@ -7,20 +9,7 @@ export async function wsMiddleware(ctx: any, next: any) {
         return await next();
     }
     const sock = await ctx.upgrade();
-    let idx = socks.push(sock) - 1;
-    for await (const ev of sock) {
-        if (typeof ev === 'string') {
-            // text message
-            console.log('ws:Text', ev);
-            await sock.send(ev);
-        }
-    }
-    socks.splice(idx, 1);
+    let id = socks.push(sock) - 1;
+    for await (const ev of sock);
+    socks.splice(id, 1);
 }
-
-export async function sendLiveReload() {
-    for (const sock of socks) {
-        await sock.send('reload');
-        // await sock.close(1000);
-    }
-};

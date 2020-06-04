@@ -1,12 +1,10 @@
 import { send, Context } from './deps.ts';
-import { wsPathname } from './wsMiddleware.ts';
+import { script } from './reloadScript.ts';
+import { Options } from './mod.ts';
 
-const script = (port: number) => `<script>
-const ws = new WebSocket('ws://127.0.0.1:${port}${wsPathname}');
-ws.onmessage = ({ data }) => data === 'reload' && location.reload();
-</script>`;
-
-export const staticMiddleware = (root: string, port: number) => async (context: Context) => {
+export const staticMiddleware = ({ root, port }: Options) => async (
+    context: Context,
+) => {
     await send(context, context.request.url.pathname, {
         root,
         index: 'index.html',
