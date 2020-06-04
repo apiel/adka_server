@@ -4,15 +4,16 @@ import { wsPathname, socks } from './wsMiddleware.ts';
 import { helpers } from './deps.ts';
 
 const reloadKey = 'reload';
+const len = reloadKey.length;
 
 export const script = (port: number) => `<script>
 const ws = new WebSocket('ws://127.0.0.1:${port}${wsPathname}');
 ws.onmessage = ({ data }) => {
-    if (data.startsWith('${reloadKey}')) {
-        const pos = data.indexOf('/');
-        if (pos === -1 || data.substr(pos) === location.pathname) {
-            location.reload();
-        }
+    if (
+        data.startsWith('${reloadKey}') &&
+        (data.length === ${len} || RegExp(data.substr(${len})).test(location.pathname))
+    ) {
+        location.reload();
     }
 }
 </script>`;
@@ -24,7 +25,7 @@ export async function reloadAll(pathname?: string) {
 }
 
 export function reload(sock: WebSocket, pathname?: string) {
-    return sock.send(`${reloadKey}${pathname}`);
+    return sock.send(`${reloadKey}${pathname || ''}`);
 }
 
 export async function reloadMiddleware(ctx: any, next: any) {

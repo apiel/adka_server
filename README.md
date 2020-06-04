@@ -30,7 +30,7 @@ To manually trigger a reload, you can send a request to the entrypoint `/adka-li
 http://127.0.0.1:8080/adka-live-reload
 ```
 
-You can as well, specify the path to reload `/adka-live-reload?pathname=/the/page`, this will then only reload the pages with the pathname `/the/page`.
+You can as well, specify the path to reload `/adka-live-reload?pathname=/the/page`, this will then only reload the pages with the pathname `/the/page`. `pathname` parameter is a regex, so `/adka-live-reload?pathname=/the` would also reload `/the/page`, while `/adka-live-reload?pathname=/the$` would not.
 
 ## Use the module
 
