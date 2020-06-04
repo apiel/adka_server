@@ -2,24 +2,20 @@ import { send, Context } from './deps.ts';
 import { script } from './reloadScript.ts';
 import { Options } from './mod.ts';
 
-export const staticMiddleware = ({ root, port }: Options) => async (
-    context: Context,
-) => {
+export const staticMiddleware = ({
+    root,
+    port,
+    htmlExt = /.+\.htm[l]?|\/$/,
+}: Options) => async (context: Context) => {
     await send(context, context.request.url.pathname, {
         root,
         index: 'index.html',
     });
-    if (context.response.body) {
+    if (context.response.body && htmlExt.test(context.request.url.pathname)) {
         const buf = await Deno.readAll(context.response.body as any);
         let content = new TextDecoder().decode(buf);
-        const isHtml = /<\/?[a-z][\s\S]*>/i.test(content);
-        if (isHtml) {
-            content = injectScript(content, script(port));
-            context.response.headers.set(
-                'Content-Length',
-                String(content.length),
-            );
-        }
+        content = injectScript(content, script(port));
+        context.response.headers.set('Content-Length', String(content.length));
         context.response.body = content;
     }
 };

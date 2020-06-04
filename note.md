@@ -1,5 +1,5 @@
 ToDo:
 
-- refresh only if file is loaded?
+- test
 
-- fix: image not loading
+- refresh only if file is loaded?
