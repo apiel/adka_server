@@ -3,7 +3,7 @@ export {
     send,
     Context,
     helpers,
-} from 'https://deno.land/x/oak/mod.ts';
+} from 'https://deno.land/x/oak@v6.0.0/mod.ts';
 
 export {
     info,
