@@ -50,3 +50,7 @@ server({ port: 3000, root: './site', watcher: async (root: string) => {
     setInterval(reloadAll, 5000);
 } });
 ```
+
+## Custom error page
+
+By default the server is using the http error handler from the deno http standard library. But it is possible to set some custom error page with creating an HTML file by error code in the root folder `{http_error_code}.html`.
